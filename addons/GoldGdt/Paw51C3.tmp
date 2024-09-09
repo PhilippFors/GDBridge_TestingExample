@@ -1,0 +1,303 @@
+[gd_scene load_steps=16 format=3 uid="uid://bk1exu1p74wrs"]
+
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_Pawn.gd" id="1_qx48f"]
+[ext_resource type="Resource" uid="uid://c770d2068in3p" path="res://addons/GoldGdt/Default.tres" id="2_m0ukv"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_Controls.gd" id="3_sa8ga"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_Move.gd" id="4_5gavo"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_View.gd" id="5_say2d"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_Body.gd" id="6_k6qi8"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_Camera.gd" id="7_3b78s"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/GoldGdt_DebugUI.gd" id="7_vbtkw"]
+[ext_resource type="Script" path="res://addons/GoldGdt/src/PlayerParameters.gd" id="8_1hs31"]
+[ext_resource type="Script" path="res://scripts/GeeDeeScript/PortalObject.gd" id="9_1ossi"]
+[ext_resource type="ArrayMesh" uid="uid://bi1c5pi8tjous" path="res://assets/meshes/ukgunmesh.res" id="11_7au3m"]
+[ext_resource type="Script" path="res://addons/GoldGdt/control.gd" id="12_5x20e"]
+
+[sub_resource type="Resource" id="Resource_ea18u"]
+script = ExtResource("8_1hs31")
+THIRD_PERSON_CAMERA = false
+AUTOHOP = false
+FORWARD_SPEED = 10.16
+SIDE_SPEED = 10.16
+MAX_SPEED = 8.128
+MAX_AIR_SPEED = 0.762
+STOP_SPEED = 2.54
+GRAVITY = 20.32
+JUMP_HEIGHT = 1.143
+STEP_HEIGHT = 0.457
+HULL_STANDING_BOUNDS = Vector3(0.813, 1.829, 0.813)
+HULL_DUCKING_BOUNDS = Vector3(0.813, 0.914, 0.813)
+VIEW_OFFSET = 0.711
+DUCK_VIEW_OFFSET = 0.305
+ACCELERATION = 10.0
+AIR_ACCELERATION = 10.0
+FRICTION = 4.0
+DUCKING_SPEED_MULTIPLIER = 0.333
+BUNNYHOP_CAP_MODE = 0
+SPEED_THRESHOLD_FACTOR = 1.7
+SPEED_DROP_FACTOR = 1.1
+MOUSE_SENSITIVITY = 12.0
+BOB_FREQUENCY = 0.008
+BOB_FRACTION = 12.0
+ROLL_ANGLE = 0.65
+ROLL_SPEED = 300.0
+ARM_LENGTH = 2.0
+ARM_OFFSET_DEGREES = Vector2(0, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j7pn1"]
+size = Vector3(0.813, 1.829, 0.813)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_u4rs7"]
+custom_solver_bias = 1.0
+margin = 0.25
+radius = 0.15
+
+[node name="Pawn" type="Node3D" node_paths=PackedStringArray("View", "Camera")]
+script = ExtResource("1_qx48f")
+View = NodePath("View Control")
+Camera = NodePath("Interpolated Camera")
+
+[node name="GameUI" type="Control" parent="." node_paths=PackedStringArray("Controls", "View", "Body", "GameInfo", "ControlsInfo", "ViewInfo", "BodyInfo")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_stretch_ratio = 0.0
+mouse_filter = 2
+script = ExtResource("7_vbtkw")
+Controls = NodePath("../User Input")
+View = NodePath("../View Control")
+Body = NodePath("../Body")
+GameInfo = NodePath("Game/Info")
+ControlsInfo = NodePath("Controls/Info")
+ViewInfo = NodePath("View Control/Info")
+BodyInfo = NodePath("Body/Info")
+
+[node name="Game" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_left = 8.0
+offset_right = 48.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="GameUI/Game"]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
+text = "QuantaDM"
+
+[node name="Info" type="Label" parent="GameUI/Game"]
+layout_mode = 2
+offset_top = 28.0
+offset_right = 129.0
+offset_bottom = 85.0
+theme_override_font_sizes/font_size = 12
+text = "Rendering FPS: #
+Physics Tick Rate: #
+Physics Frame Time: #"
+
+[node name="Controls" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 95.0
+offset_right = 48.0
+offset_bottom = 135.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="GameUI/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Controls"
+
+[node name="Info" type="Label" parent="GameUI/Controls"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 135.0
+offset_bottom = 145.0
+theme_override_font_sizes/font_size = 12
+text = "Movement Input: (#, #)
+Wish Direction: (#, #, #)
+Wish Speed: #
+Jump Pressed: ?
+Duck Pressed: ?"
+
+[node name="View Control" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 232.0
+offset_right = 48.0
+offset_bottom = 272.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="GameUI/View Control"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "View Control"
+
+[node name="Info" type="Label" parent="GameUI/View Control"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 114.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 12
+text = "View Angles: (#, #, #)
+View Offset: #"
+
+[node name="Body" type="Control" parent="GameUI"]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 309.0
+offset_right = 48.0
+offset_bottom = 349.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="GameUI/Body"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Body
+"
+
+[node name="Info" type="Label" parent="GameUI/Body"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 59.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 12
+text = "Velocity: (#, #, #)
+Speed: # m/s (# u/s)
+Ducking: ?
+Ducked: ?"
+
+[node name="Attribution" type="RichTextLabel" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -28.0
+offset_right = 262.0
+offset_bottom = -5.0
+grow_vertical = 0
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "GoldGdt Character Controller
+Copyright (c) 2024 ratmarrow
+"
+fit_content = true
+
+[node name="User Input" type="Node" parent="." node_paths=PackedStringArray("Body", "Move", "View")]
+script = ExtResource("3_sa8ga")
+Parameters = ExtResource("2_m0ukv")
+Body = NodePath("../Body")
+Move = NodePath("../Move Functions")
+View = NodePath("../View Control")
+
+[node name="View Control" type="Node" parent="." node_paths=PackedStringArray("Body", "horizontal_view", "vertical_view", "camera_mount")]
+script = ExtResource("5_say2d")
+Parameters = ExtResource("2_m0ukv")
+Body = NodePath("../Body")
+horizontal_view = NodePath("../Body/Horizontal View")
+vertical_view = NodePath("../Body/Horizontal View/Vertical View")
+camera_mount = NodePath("../Body/Horizontal View/Vertical View/Camera Mount")
+
+[node name="Move Functions" type="Node" parent="." node_paths=PackedStringArray("Body")]
+script = ExtResource("4_5gavo")
+Parameters = ExtResource("2_m0ukv")
+Body = NodePath("../Body")
+
+[node name="Body" type="CharacterBody3D" parent="." node_paths=PackedStringArray("View", "collision_hull", "duck_timer")]
+collision_layer = 2
+floor_constant_speed = true
+script = ExtResource("6_k6qi8")
+Parameters = SubResource("Resource_ea18u")
+View = NodePath("../View Control")
+collision_hull = NodePath("Collision Hull")
+duck_timer = NodePath("Duck Timer")
+
+[node name="PortalObject" type="Node" parent="Body"]
+script = ExtResource("9_1ossi")
+
+[node name="Collision Hull" type="CollisionShape3D" parent="Body"]
+shape = SubResource("BoxShape3D_j7pn1")
+
+[node name="Duck Timer" type="Timer" parent="Body"]
+
+[node name="Horizontal View" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.711, 0)
+
+[node name="Vertical View" type="Node3D" parent="Body/Horizontal View"]
+
+[node name="Camera Mount" type="Marker3D" parent="Body/Horizontal View/Vertical View"]
+gizmo_extents = 0.5
+
+[node name="Interpolated Camera" type="Node3D" parent="." node_paths=PackedStringArray("target", "camera_arm", "camera_anchor", "camera", "viewmodelcamera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.711, 0)
+script = ExtResource("7_3b78s")
+Parameters = ExtResource("2_m0ukv")
+target = NodePath("../Body/Horizontal View/Vertical View/Camera Mount")
+camera_arm = NodePath("Arm")
+camera_anchor = NodePath("Arm/Arm Anchor")
+camera = NodePath("Arm/Arm Anchor/Camera")
+viewmodelcamera = NodePath("Arm/Arm Anchor/Camera/Control/SubViewportContainer/SubViewport/ViewmodelCam")
+
+[node name="Arm" type="SpringArm3D" parent="Interpolated Camera"]
+shape = SubResource("SphereShape3D_u4rs7")
+spring_length = 0.0
+margin = 0.1
+
+[node name="Arm Anchor" type="Node3D" parent="Interpolated Camera/Arm"]
+editor_description = "
+"
+
+[node name="Camera" type="Camera3D" parent="Interpolated Camera/Arm/Arm Anchor"]
+cull_mask = 1048573
+fov = 105.0
+near = 0.001
+far = 500.0
+
+[node name="Viewmodel" type="MeshInstance3D" parent="Interpolated Camera/Arm/Arm Anchor/Camera"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.0382675, -0.038386, -0.053831)
+layers = 2
+mesh = ExtResource("11_7au3m")
+
+[node name="Control" type="Control" parent="Interpolated Camera/Arm/Arm Anchor/Camera"]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_5x20e")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Interpolated Camera/Arm/Arm Anchor/Camera/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.4
+anchor_bottom = 1.377
+offset_right = -768.0
+offset_bottom = -407.16
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="Interpolated Camera/Arm/Arm Anchor/Camera/Control/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="ViewmodelCam" type="Camera3D" parent="Interpolated Camera/Arm/Arm Anchor/Camera/Control/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.707034, 0)
+cull_mask = 2
+fov = 105.0
+near = 0.001
+far = 50.0
