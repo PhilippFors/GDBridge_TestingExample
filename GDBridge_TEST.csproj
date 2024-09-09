@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.3.1-rc">
+<Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
@@ -9,8 +9,6 @@
     <PackageReference Include="GDBridge" Version="0.12.0" />
     <PackageReference Include="GDBridge.Generator" Version="0.12.0" />
     <PackageReference Include="GDParser" Version="0.8.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="**/*.gd"/>
+    <AdditionalFiles Include="**/*.gd" />
   </ItemGroup>
 </Project>

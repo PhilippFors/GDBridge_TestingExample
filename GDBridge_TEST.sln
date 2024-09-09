@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDBridge_TEST", "GDBridge_TEST.csproj", "{3166E581-2575-42DA-AB99-FC901F33DCD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDBridge_TEST", "GDBridge_TEST.csproj", "{F36242B1-A185-48D7-B47E-2467E3163DB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{3166E581-2575-42DA-AB99-FC901F33DCD6}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{F36242B1-A185-48D7-B47E-2467E3163DB3}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal
